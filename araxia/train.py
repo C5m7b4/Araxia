@@ -1,18 +1,20 @@
 # train.py
 import numpy as np
 import matplotlib.pyplot as plt
-from network import MLP
+from .network import MLP
 
 def normalize_features(X):
     X_mean = X.mean(axis=0)
     X_std = X.std(axis=0)
     X_std[X_std == 0] = 1.0
-    return (X - X_mean) / X_std, X_mean, X_std
+    X_norm = (X - X_mean) / X_std
+    #X_norm = [np.array(xi).flatten() for xi in X_norm]
+    return X_norm, X_mean, X_std
 
 def normalize_targets(y):
     y_min = y.min()
     y_max = y.max()
-    return (y - y_min) / (y_max - y_min), y_min, y_max
+    return (y - y_min) / (y_max - y_min)
 
 def denormalize_targets(y_norm, y_min, y_max):
     return y_norm * (y_max - y_min) + y_min
