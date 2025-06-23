@@ -34,6 +34,11 @@ cd araxia
 pip install -e .
 ```
 
+if You want to run the locally installed dev environment
+```bash
+pip install -e .
+```
+
 ## 📦 Quickstart
 
 ```python
