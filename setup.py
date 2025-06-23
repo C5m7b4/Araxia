@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Araxia',
+    name='araxia',
     version='0.1.0',
     packages=find_packages(),
     install_requires=[
@@ -12,9 +12,7 @@ setup(
     ],
     author='C5m7b4',
     description='A simple from-scratch neural network time series forecaster with preprocessing utilities.',
-    long_description=open('README.md').read(),
-    long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/AraxiaTS',
+    url='https://github.com/C5m7b4/Araxia',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
