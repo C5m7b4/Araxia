@@ -3,6 +3,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .network import MLP
 
+class NormalizeFeatures:
+    """A class to normalize features of a dataset."""
+    def __init__(self, X):
+        self.X_mean = X.mean(axis=0)
+        self.X_std = X.std(axis=0)
+        self.X_std[self.X_std == 0] = 1.0  # Avoid division by zero
+        self.X_norm = (X - self.X_mean) / self.X_std
+
+    def normalize(self):
+        return self.X_norm
+    
+    def std(self):
+        return self.X_std
+
+    def denormalize(self):
+        return self.X_norm * self.X_std + self.X_mean
+    
+    def mean(self):
+        return self.X_mean
+
 def normalize_features(X):
     X_mean = X.mean(axis=0)
     X_std = X.std(axis=0)
@@ -14,7 +34,9 @@ def normalize_features(X):
 def normalize_targets(y):
     y_min = y.min()
     y_max = y.max()
-    return (y - y_min) / (y_max - y_min)
+    y_norm= (y - y_min) / (y_max - y_min)
+    y_norm = [float(yi) for yi in y_norm]
+    return y_norm
 
 def denormalize_targets(y_norm, y_min, y_max):
     return y_norm * (y_max - y_min) + y_min
