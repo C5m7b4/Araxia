@@ -27,8 +27,6 @@ class Neuron:
             dz = dL_dy
 
         dz = float(np.squeeze(dz))
-        # dz = float(dz) # ensure its a float
-        # dz = np.asscalar(np.asarray(dz)) if hasattr(np, 'asscalar') else float(np.squeeze(dz))
 
         for i in range(len(self.weights)):
             self.weights[i] -= learning_rate * dz * self.last_input[i]
