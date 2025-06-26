@@ -24,8 +24,8 @@ class NormalizeFeatures:
         return self.X_mean
 
 def normalize_features(X):
-    X_mean = X.mean(axis=0)
-    X_std = X.std(axis=0)
+    X_mean = X.mean()
+    X_std = X.std()
     X_std[X_std == 0] = 1.0
     X_norm = (X - X_mean) / X_std
     #X_norm = [np.array(xi).flatten() for xi in X_norm]

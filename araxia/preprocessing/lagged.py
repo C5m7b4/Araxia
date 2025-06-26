@@ -25,16 +25,17 @@ def create_lagged_dataset(ds, date_col='sale_date', target_col='sales', lag=5):
 
 
         for i in range(lag, ds.shape()[0]):
-            lagged_values = [d.strftime('%m/%d/%Y') for d in ds[date_col].values[i - lag:i]]
+            #lagged_values = [d.strftime('%m/%d/%Y') for d in ds[date_col].values[i - lag:i]]
+            lagged_values = ds[target_col].values[i - lag:i]
             row = ds.loc[i]
             features = lagged_values + [
                 row['day_of_week'].values[0],
                 row['day_of_month'].values[0],
                 row['month'].values[0],
-                row['is_weekend'].values[0]
+                int(row['is_weekend'].values[0])
             ]
             X.append(features)
             y.append(row[target_col])
-        return tx.Series(X), tx.Series(y)
+        return np.array(X), np.array(y)
     except Exception as e:
         raise ValueError(f"Error processing dataset: {e}")

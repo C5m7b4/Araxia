@@ -26,9 +26,9 @@ def train_test_split(X, y, test_size=0.2):
     
     n = X.shape[0]
     stop = int(n - (n * test_size))
-    X_train = X.iloc[0:stop, :-1]
-    y_train = y.iloc[0:stop, -1:]
+    X_train = X[:stop]
+    y_train = y[:stop]
 
-    X_test = X.iloc[stop:, :-1]
-    y_test = y.iloc[stop:, -1:]
+    X_test = X[stop:]
+    y_test = y[stop:]
     return X_train, y_train, X_test, y_test
