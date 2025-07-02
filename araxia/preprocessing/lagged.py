@@ -16,10 +16,10 @@ def create_lagged_dataset(ds, date_col='sale_date', target_col='sales', lag=5):
     X, y = [], []
     try:
         ds[date_col] = tx.to_datetime(ds[date_col])
-        ds = ds.sort(date_col)
+        ds = ds.sort_values(by=date_col)
 
         ds['day_of_week'] = ds[date_col].dt.weekday
-        ds['is_weekend'] = ds['day_of_week'].isin([5, 6])
+        ds['is_weekend'] = ds[date_col].dt.is_weekend.astype(int)
         ds['day_of_month'] = ds[date_col].dt.day
         ds['month'] = ds[date_col].dt.month    
 
@@ -30,12 +30,13 @@ def create_lagged_dataset(ds, date_col='sale_date', target_col='sales', lag=5):
             row = ds.loc[i]
             features = lagged_values + [
                 row['day_of_week'].values[0],
+                
                 row['day_of_month'].values[0],
                 row['month'].values[0],
                 int(row['is_weekend'].values[0])
             ]
             X.append(features)
-            y.append(row[target_col])
+            y.append(row[target_col].values[0])
         return np.array(X), np.array(y)
     except Exception as e:
         raise ValueError(f"Error processing dataset: {e}")

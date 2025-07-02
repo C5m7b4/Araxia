@@ -24,17 +24,31 @@ class NormalizeFeatures:
         return self.X_mean
 
 def normalize_features(X):
-    X_mean = X.mean()
-    X_std = X.std()
-    X_std[X_std == 0] = 1.0
+    X = np.asarray(X)
+    if X.ndim == 1:
+        X = X.reshape(-1, 1)
+
+
+    X_mean = X.mean(axis=0)
+    X_std = X.std(axis=0)
+    X_std[X_std == 0] = 1.0 # prevent divide by zero
     X_norm = (X - X_mean) / X_std
     #X_norm = [np.array(xi).flatten() for xi in X_norm]
     return X_norm, X_mean, X_std
 
 def normalize_targets(y):
+    y = np.asarray(y)
     y_min = y.min()
     y_max = y.max()
-    y_norm= (y - y_min) / (y_max - y_min)
+
+    print(f'y_max={y_max}, y_min={y_min}, ')
+
+    if y_max == y_min:
+        # All values are the same; normalize to 0.0
+        y_norm = np.zeros_like(y, dtype=float)
+    else:
+        y_norm = (y - y_min) / (y_max - y_min)
+
     y_norm = [float(yi) for yi in y_norm]
     return y_norm
 
